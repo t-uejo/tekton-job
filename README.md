@@ -14,5 +14,5 @@ kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline
 
 ## 参考記事
 
-- [Getting started with Tasks | Tekton](https://qiita.com/sotoiwa/items/7ffd415185d2cbb9f1a1)
-- [Tekton を Minikube で試す 1 #Docker - Qiita](https://tekton.dev/docs/getting-started/tasks/)
+- [Getting started with Tasks | Tekton](https://tekton.dev/docs/getting-started/tasks/)
+- [Tekton を Minikube で試す 1 #Docker - Qiita](https://qiita.com/sotoiwa/items/7ffd415185d2cbb9f1a1)
