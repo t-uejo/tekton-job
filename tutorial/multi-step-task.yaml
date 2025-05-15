@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: multi-step-task
+spec:
+  steps:
+    - name: job-1
+      image: ubuntu:latest
+      command:
+        - sh
+        - -c
+        - |
+          date
+          sleep 10
+          date
+    - name: job-2
+      image: ubuntu:latest
+      command:
+        - sh
+        - -c
+        - |
+          date
+          sleep 10
+          date

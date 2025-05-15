@@ -1,0 +1,73 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: job-pipeline
+spec:
+  description: "ジョブ1が成功したら（リターンコード0）ジョブ2を実行するパイプライン"
+  tasks:
+    - name: job-1
+      taskRef:
+        name: job-1-task
+        kind: Task
+
+    - name: job-2
+      taskRef:
+        name: job-2-task
+        kind: Task
+      runAfter:
+        - job-1 # job-1が終了した後にのみ実行
+      when:
+        - input: "$(tasks.job-1.results.exitCode)"
+          operator: in
+          values: ["0"] # 終了コードが0の場合のみ実行
+
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: job-1-task
+spec:
+  description: "ジョブ1を実行するタスク"
+  results:
+    - name: exitCode
+      description: "ジョブ1のスクリプトの終了コード"
+  steps:
+    - name: run-job-1
+      image: ubuntu:latest
+      script: |
+        #!/bin/bash
+
+        echo -----START-----
+        echo run /path/to/job1-script.sh
+        result=0
+        echo -----END-----
+
+        # 終了コードを結果として保存
+        echo -n "$result" > $(results.exitCode.path)
+
+        # スクリプトの終了コードでこのステップも終了（ログ確認用）
+        echo "ジョブ1の終了コード: $result"
+        exit $result
+
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: job-2-task
+spec:
+  description: "ジョブ2を実行するタスク"
+  steps:
+    - name: run-job-2
+      image: ubuntu:latest
+      script: |
+        #!/bin/bash
+
+        echo "ジョブ1が成功したため、ジョブ2を実行します"
+
+        echo -----START-----
+        echo run /path/to/job2-script.sh
+        result=0
+        echo -----END-----
+
+        echo "ジョブ2の終了コード: $result"
+        exit $result
