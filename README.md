@@ -1,6 +1,6 @@
-# Tekton によるジョブ実行検証
+# Tekton ジョブ実行検証
 
-## 検証におけるゴール
+## ゴール
 
 - Tekton Pipeline を使って、複数の job を実行させる。
 - リターンコードから次のジョブを実行させるかを判定。
@@ -11,10 +11,6 @@
 ```bash
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
 ```
-
-### 注意点
-
-- release.yaml 適応時に TCS-ONE の web フィルターの影響で image を取得できないため、WiFi を社給スマホのテザリングに切り替え。（Google の公式なイメージから取得しているので問題なし）
 
 ## 参考記事
 
